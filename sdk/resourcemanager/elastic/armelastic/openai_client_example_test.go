@@ -20,7 +20,7 @@ func ExampleOpenAIClient_NewListPager() {
 	if err != nil {
 		log.Fatalf("failed to obtain a credential: %v", err)
 	}
-	ctx := context.Background()
+	ctx := context.TODO()
 	clientFactory, err := armelastic.NewClientFactory("<subscription-id>", cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
@@ -59,7 +59,7 @@ func ExampleOpenAIClient_Get() {
 	if err != nil {
 		log.Fatalf("failed to obtain a credential: %v", err)
 	}
-	ctx := context.Background()
+	ctx := context.TODO()
 	clientFactory, err := armelastic.NewClientFactory("<subscription-id>", cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
@@ -90,7 +90,7 @@ func ExampleOpenAIClient_CreateOrUpdate() {
 	if err != nil {
 		log.Fatalf("failed to obtain a credential: %v", err)
 	}
-	ctx := context.Background()
+	ctx := context.TODO()
 	clientFactory, err := armelastic.NewClientFactory("<subscription-id>", cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
@@ -121,7 +121,7 @@ func ExampleOpenAIClient_Delete() {
 	if err != nil {
 		log.Fatalf("failed to obtain a credential: %v", err)
 	}
-	ctx := context.Background()
+	ctx := context.TODO()
 	clientFactory, err := armelastic.NewClientFactory("<subscription-id>", cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
@@ -138,7 +138,7 @@ func ExampleOpenAIClient_GetStatus() {
 	if err != nil {
 		log.Fatalf("failed to obtain a credential: %v", err)
 	}
-	ctx := context.Background()
+	ctx := context.TODO()
 	clientFactory, err := armelastic.NewClientFactory("<subscription-id>", cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
