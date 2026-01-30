@@ -20,7 +20,7 @@ func ExampleMonitoredSubscriptionsClient_NewListPager() {
 	if err != nil {
 		log.Fatalf("failed to obtain a credential: %v", err)
 	}
-	ctx := context.Background()
+	ctx := context.TODO()
 	clientFactory, err := armelastic.NewClientFactory("<subscription-id>", cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
@@ -92,7 +92,7 @@ func ExampleMonitoredSubscriptionsClient_Get() {
 	if err != nil {
 		log.Fatalf("failed to obtain a credential: %v", err)
 	}
-	ctx := context.Background()
+	ctx := context.TODO()
 	clientFactory, err := armelastic.NewClientFactory("<subscription-id>", cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
@@ -156,7 +156,7 @@ func ExampleMonitoredSubscriptionsClient_BeginCreateorUpdate() {
 	if err != nil {
 		log.Fatalf("failed to obtain a credential: %v", err)
 	}
-	ctx := context.Background()
+	ctx := context.TODO()
 	clientFactory, err := armelastic.NewClientFactory("<subscription-id>", cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
@@ -224,7 +224,7 @@ func ExampleMonitoredSubscriptionsClient_BeginUpdate() {
 	if err != nil {
 		log.Fatalf("failed to obtain a credential: %v", err)
 	}
-	ctx := context.Background()
+	ctx := context.TODO()
 	clientFactory, err := armelastic.NewClientFactory("<subscription-id>", cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
@@ -292,7 +292,7 @@ func ExampleMonitoredSubscriptionsClient_BeginDelete() {
 	if err != nil {
 		log.Fatalf("failed to obtain a credential: %v", err)
 	}
-	ctx := context.Background()
+	ctx := context.TODO()
 	clientFactory, err := armelastic.NewClientFactory("<subscription-id>", cred, nil)
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
