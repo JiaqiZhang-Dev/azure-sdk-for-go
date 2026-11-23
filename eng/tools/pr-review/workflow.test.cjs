@@ -233,11 +233,20 @@ test("worker rejects bot dispatch without head_sha or with incomplete CI", async
 const workflows = path.resolve(__dirname, "..", "..", "..", ".github", "workflows");
 const text = (name) => readFileSync(path.join(workflows, name), "utf8").replace(/\r\n/g, "\n");
 
+test("dispatches mgmt-review when triggered by workflow_run after check_suite", async () => {
+  const state = fixture();
+  state.context.eventName = "workflow_run";
+  state.context.payload.workflow_run = { id: 200, status: "completed", head_sha: sha };
+  delete state.context.payload.check_suite;
+  await dispatchReadyReviews(state);
+  assert.equal(state.calls.dispatches.length, 1);
+});
+
 test("auto-dispatch workflow runs trusted code with per-SHA concurrency", () => {
   const dispatcher = text("mgmt-review-auto-dispatch.yml");
   assert.match(dispatcher, /permissions: \{\}/);
   assert.match(dispatcher, /ref: \$\{\{ github\.sha \}\}/);
-  assert.match(dispatcher, /group: mgmt-review-dispatch-\$\{\{ github\.event\.check_suite\.head_sha \}\}/);
+  assert.match(dispatcher, /group: mgmt-review-dispatch-\$\{\{ github\.event\.check_suite\.head_sha \|\| github\.event\.workflow_run\.head_sha \}\}/);
 });
 
 test("management review workflows do not subscribe to the legacy PR target event", () => {

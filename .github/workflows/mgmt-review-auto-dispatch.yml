@@ -3,16 +3,21 @@ name: Mgmt Review Auto Dispatch
 on:
   check_suite:
     types: [completed]
+  workflow_run:
+    workflows: [Verify Links]
+    types: [completed]
 
 permissions: {}
 
 concurrency:
-  group: mgmt-review-dispatch-${{ github.event.check_suite.head_sha }}
+  group: mgmt-review-dispatch-${{ github.event.check_suite.head_sha || github.event.workflow_run.head_sha }}
   cancel-in-progress: false
 
 jobs:
   dispatch:
-    if: github.event.check_suite.repository.id == github.repository_id
+    if: >-
+      (github.event_name == 'check_suite' && github.event.check_suite.repository.id == github.repository_id) ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.repository.id == github.repository_id && github.event.workflow_run.event == 'pull_request')
     runs-on: ubuntu-slim
     timeout-minutes: 5
     permissions:

@@ -174,15 +174,18 @@ async function getCurrentPullRequest({ github, context, core }, number, headSha,
 
 async function dispatchReadyReviews({ github, context, core }) {
   requireDefaultBranch(context);
-  if (context.eventName !== "check_suite") {
-    throw new Error("The review dispatcher requires a check_suite event.");
+  if (context.eventName !== "check_suite" && context.eventName !== "workflow_run") {
+    throw new Error("The review dispatcher requires a check_suite or workflow_run event.");
   }
-  const suite = context.payload.check_suite;
-  if (!suite || suite.status !== "completed") {
-    core.info("Skipping check_suite: suite is not completed.");
+  const source =
+    context.eventName === "check_suite"
+      ? context.payload.check_suite
+      : context.payload.workflow_run;
+  if (!source || source.status !== "completed") {
+    core.info(`Skipping ${context.eventName}: run is not completed.`);
     return;
   }
-  const headSha = commitSha(suite.head_sha);
+  const headSha = commitSha(source.head_sha);
   const associatedPRs = await github.paginate(
     github.rest.repos.listPullRequestsAssociatedWithCommit,
     {
