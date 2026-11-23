@@ -1,0 +1,16 @@
+name: Mock Go Pullrequest
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions: {}
+
+jobs:
+  mock-go-pullrequest:
+    name: go - pullrequest
+    runs-on: ubuntu-slim
+    steps:
+      - name: Simulate CI delay
+        run: sleep 15

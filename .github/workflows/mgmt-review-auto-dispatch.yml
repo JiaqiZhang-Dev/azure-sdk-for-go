@@ -4,7 +4,7 @@ on:
   check_suite:
     types: [completed]
   workflow_run:
-    workflows: [Verify Links]
+    workflows: [Verify Links, Mock Go Pullrequest]
     types: [completed]
 
 permissions: {}
