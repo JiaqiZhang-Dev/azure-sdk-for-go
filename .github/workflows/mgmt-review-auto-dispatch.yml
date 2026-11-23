@@ -1,28 +1,26 @@
-name: PR Review Router
+name: Mgmt Review Auto Dispatch
 
 on:
-  workflow_run:
-    workflows: [PR Review Intake]
+  check_suite:
     types: [completed]
 
 permissions: {}
 
 concurrency:
-  group: pr-review-router-${{ github.event.workflow_run.id }}
+  group: mgmt-review-dispatch-${{ github.event.check_suite.head_sha }}
   cancel-in-progress: false
 
 jobs:
   dispatch:
-    if: >-
-      github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.repository.id == github.repository_id
+    if: github.event.check_suite.repository.id == github.repository_id
     runs-on: ubuntu-slim
     timeout-minutes: 5
     permissions:
       actions: write
+      checks: read
       contents: read
       pull-requests: read
+      statuses: write
     steps:
       - name: Checkout trusted routing code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -30,9 +28,9 @@ jobs:
           ref: ${{ github.sha }}
           persist-credentials: false
           sparse-checkout: eng/tools/pr-review
-      - name: Validate and dispatch the requested review
+      - name: Dispatch management review when CI is complete
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
-            const { routeReviewRequest } = require('./eng/tools/pr-review/review-request.cjs');
-            await routeReviewRequest({ github, context, core });
+            const { dispatchReadyReviews } = require('./eng/tools/pr-review/review-request.cjs');
+            await dispatchReadyReviews({ github, context, core });

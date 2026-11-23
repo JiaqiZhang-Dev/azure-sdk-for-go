@@ -10,14 +10,6 @@ on:
         description: Expected PR head SHA (optional for manual reviews)
         required: false
         type: string
-      request_run_id:
-        description: PR Review Intake run ID (set by the trusted router)
-        required: false
-        type: string
-      request_event_id:
-        description: GitHub label-event ID (set by the trusted router)
-        required: false
-        type: string
   bots: [github-actions]
 jobs:
   safe_outputs:
@@ -28,8 +20,10 @@ jobs:
     timeout-minutes: 5
     permissions:
       actions: read
+      checks: read
       contents: read
       pull-requests: write
+      statuses: write
     outputs:
       ready: ${{ steps.review_request.outputs.ready }}
       pr_number: ${{ steps.review_request.outputs.pr_number }}
@@ -53,7 +47,6 @@ jobs:
               core.setOutput('pr_number', request.number);
               core.setOutput('head_sha', request.headSha);
             }
-labels: [mgmt-review-needed]
 if: needs.validate_request.outputs.ready == 'true'
 description: "Analyze a management-plane Go SDK pull request and provide next-step merge guidance"
 checkout: false
